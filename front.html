@@ -1,0 +1,77 @@
+<!--GITHUBに更新したhtmlやjsをアップロードすること。自動で更新されれば尚よしだが-->
+<!--若いうちは無駄が多くなる。効率よくなるのはおじさんになってからだ。-->
+<!--DOCTYPEとは文書型定義のこと。htmlと書くだけでVer５ではいい-->
+<!DOCTYPE html>
+<!--最後は"</html>"で締められている-->
+<html lang="ja">
+  <!--headとは、→ ページの設定・情報を書く場所（表示されない内容）。
+　例：タイトル、文字コード、CSS、JSの読み込みなど。-->
+  <head>
+    <!--meta要素は、ページのメタデータを定義します。
+      charset属性は文字エンコーディングを指定し、UTF-8を使用しています。
+      title要素はブラウザのタイトルバーやタブに表示されるページのタイトルです。-->
+    <meta charset="UTF-8" />
+    <!--titleとはブラウザのタブに表示される名前
+    ブックマークの名前として使われる
+    検索エンジンにとって重要な情報（SEO）-->
+    <title>得意先情報登録フォーム</title>
+  </head>
+  <!--<body>とは、ウェブページの本体部分を示すタグ-->
+  <body>
+    <!-- 
+    c:\Users\sogai\Downloads\htmlタグの種類簡易解説2025-07-28 064305.png
+      h1要素は、ページの最も重要な見出しを示します。
+      ここでは「取引先登録」というタイトルを表示しています。
+      h1はSEOやアクセシビリティにおいて重要な役割を果たします。-->
+    <h1>取引先登録</h1>
+    <!--ローカルファイルのurlだとweb上では反応しない。onedriveなどのリンクが必要-->
+    <a href="file:///C:/Users/sogai/Downloads/064305.png">htmlのタグ解説</a>
+    <!--<p>とは段落である-->
+    <p>取引先の情報を登録してください。</p>
+    <!--form idとは-->
+    <form id="client-form">
+      <!-- label要素を使用して、フォームの入力フィールドにラベルを付けます ラベルの役割はフォーム入力の説明です。 -->
+      <label for="clientName">取引先名：</label>
+      <!-- input要素を使用して、ユーザーが取引先名を入力できるようにします -->
+      <!-- 
+      input要素の属性について３点：
+        ⓵id="clientName"
+       → <label for="clientName"> と結びつけて、クリックすると入力欄がアクティブになる。JSやCSSでも指定用に使う。
+
+        ⓶name="cliantName"
+        → フォーム送信時に clientName=入力値 のようにサーバーに送られる。今回はlabelと同じ名前にしている。
+
+        ⓷required
+        → 入力しないまま送信しようとすると、ブラウザがエラーを表示して送信を止める!!
+        
+        type属性について：
+        text	一般的なテキスト入力欄
+        number	数値だけを入力させたいとき
+        email	メールアドレスの形式をチェック
+        password	パスワード入力欄（文字が見えない）
+        checkbox	チェックボックス
+        radio	ラジオボタン（選択肢の中から1つ）
+        submit	フォームの送信ボタン
+        button	通常のボタン（JSで使う）
+        date	日付選択カレンダーｃ
+        file	ファイル選択（アップロード）
+        -->
+      <input type="text" id="clientName" name="clientName" required />
+      <!--
+       今回の使用法:submitボタンを使用して、フォームを送信します
+       button の主要な type と役割3選
+        ⓵submit：フォームを送信（HTMLフォームでデフォルト）
+        JS例：form.onsubmit = function() { ... }
+
+        ⓶reset：フォームの入力を初期化（元の状態に戻す）
+        JS例：form.onreset = function() { ... }
+
+        ⓷button：汎用ボタン（送信等の機能なし、JSで自由に使う）
+        JS例：button.onclick = function() { ... }
+         -->
+      <button type="submit">登録</button>
+    </form>
+    <!-- scriptとはJavaScriptをhtmlに埋め込むためのタグ。src は source（ソース） の略で、外部ファイルの読み込み先（パス）を指定する属性。  -->
+    <script src="front.js"></script>
+  </body>
+</html>
