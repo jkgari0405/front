@@ -1,5 +1,27 @@
-// 0727までにコメント最後のコードまで書き終わること
-// フォームの要素を取得（id="client-form"のもの）
+// 0729までにコメント最後のコードまで書き終わること
+// ユーザーが入力する取引先名フォームの要素(htmlのタグの情報)を取得（id="client-form"のもの）
+
+//キャメルケース（camelCase）とは？
+// 最初の単語は小文字で始まり、
+// 2語目以降の単語の頭文字を大文字にする書き方です。
+// 例：
+// userName
+// fetchDataFromServer
+// clientFormFromFront
+// formを指定してからinputを指定することで、
+// フォームの中の特定の要素を取得できます。
+// form単位でスコープを絞る書き方。
+// getElementByIdとは？
+// HTMLの要素を取得するためのメソッドで、
+// 指定したIDを持つ要素を返します。
+// 例：document.getElementById("client-form")は、
+// IDが"client-form"の要素を指定します。
+// JavaScript における document は、
+// 「現在表示されている HTML ドキュメント全体」を指すオブジェクト
+
+// element の意味
+// 「要素」という意味。
+// element は HTML内の <form> や <div>、<input> などの「1つ1つの部品（パーツ）」を指します。
 const clientFormFromFront = document.getElementById("client-form");
 
 // フォームが送信されたときの動きをここに書くよ
@@ -9,6 +31,8 @@ form.addEventListener("submit", function (event) {
   // フォームの中の「取引先名」の入力値を取る
   // 「定義するだけで値が取れるのか？」という疑問に対しては、
   //  ✅ 正しく書かれていれば、それだけで取得できます。
+  // clientNameとはhtmlのinputタグのname属性で既に指定されている。
+  // ここで初めてinputに入力された取引先名を取得する。
   const clientName = document.getElementById("clientName").value;
 
   // 送るデータをまとめる（名前と値のセットにする）
