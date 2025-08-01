@@ -19,11 +19,9 @@
 // JavaScript における document は、
 // 「現在表示されている HTML ドキュメント全体」を指すオブジェクト
 
+// element は HTML内の <form> や <div>、<input> などの「1つ1つの部品（パーツ）」を指します。
 // element の意味
 // 「要素」という意味。
-// element は HTML内の <form> や <div>、<input> などの「1つ1つの部品（パーツ）」を指します。
-const clientFormFromFront = document.getElementById("client-form");
-
 // フォームが送信されたときの動きをここに書くよ
 form.addEventListener("submit", function (event) {
   event.preventDefault(); // ページが勝手に再読み込みされるのを止める EVENT
@@ -39,12 +37,18 @@ form.addEventListener("submit", function (event) {
   const data = { clientName: clientName };
 
   // サーバーにデータを送るよ（POSTでJSON形式）
+  // const port = 7777; とserver.jsで指定済み
+  //   headers: { "Content-Type": "application/json" } は
+  // 「中身の形式が JSON ですよ」とサーバーに伝えているだけです。
+  // データの変換そのもの（整形）はしていません。
   fetch("http://localhost:7777/api/clients", {
     method: "POST", // 送る方法はPOST（新しい情報を送る）
     headers: {
       "Content-Type": "application/json", // JSONで送りますよ、の合図
     },
-    body: JSON.stringify(data), // JavaScriptのデータを文字列に変換して送る
+    body: JSON.stringify(data), // JavaScriptのデータを文字列に変換して送る　const data = { clientName: clientName };で定義したものを送る。
+    // fetchは文字列しか送れない。{ clientName: clientName }をJSON.stringify(data)で{"clientName":"株式会社ABC"}に変換する。ダブルコーテーションを付けるだけ。
+    // fetchは、JavaScriptでHTTPリクエストを送るための関数です。
   });
 });
 
