@@ -38,28 +38,33 @@ form.addEventListener("submit", function (event) {
 
   // サーバーにデータを送るよ（POSTでJSON形式）
   // const port = 7777; とserver.jsで指定済み
-  //   headers: { "Content-Type": "application/json" } は
-  // 「中身の形式が JSON ですよ」とサーバーに伝えているだけです。
-  // データの変換そのもの（整形）はしていません。
+  //   headers: { "Content-Type": "application/json" } は「中身の形式が JSON ですよ」とサーバーに伝えているだけ。データの変換そのもの（整形）はしていない。
+
   fetch("http://localhost:7777/api/clients", {
     method: "POST", // 送る方法はPOST（新しい情報を送る）
     headers: {
       "Content-Type": "application/json", // JSONで送りますよ、の合図
     },
+    //　application/json という表現は MIMEタイプ（インターネット標準）で決められた正式名称。
+    // json だけだと意味が通じません。HTTPは厳密に標準に従います。
+    //  bodyは  POST, PUT, PATCH など 何かを送信する場合に使います。
+    // GET や DELETE では使いません。
     body: JSON.stringify(data), // JavaScriptのデータを文字列に変換して送る　const data = { clientName: clientName };で定義したものを送る。
     // fetchは文字列しか送れない。{ clientName: clientName }をJSON.stringify(data)で{"clientName":"株式会社ABC"}に変換する。ダブルコーテーションを付けるだけ。
     // fetchは、JavaScriptでHTTPリクエストを送るための関数です。
-  });
+  })
+    //   要素	説明
+    // fetch()	Promise を返す関数（内部的に非同期処理）
+    // .then()	Promise に対して「成功時の処理」を定義するメソッド
+    // Promise	JavaScript の非同期処理を扱うための仕組み（fetch の中で使われている）
+    .then((response) => response.json())
+    .then((result) => {
+      console.log("サーバーからの返事:", result);
+      alert("登録が完了しました！");
+      form.reset();
+    })
+    .catch((error) => {
+      console.error("送信でエラーが出たよ:", error);
+      alert("送信に失敗しました。");
+    });
 });
-
-//     .then((response) => response.json()) // サーバーからの返事をJSONで受け取る
-//     .then((result) => {
-//       console.log("サーバーからの返事:", result);
-//       alert("登録が完了しました！"); // 送った後にユーザーにお知らせ
-//       form.reset(); // フォームの中身を空に戻す
-//     })
-//     .catch((error) => {
-//       console.error("送信でエラーが出たよ:", error);
-//       alert("送信に失敗しました。"); // 失敗したときにお知らせ
-//     });
-// });
