@@ -57,6 +57,17 @@ form.addEventListener("submit", function (event) {
     // fetch()	Promise を返す関数（内部的に非同期処理）
     // .then()	Promise に対して「成功時の処理」を定義するメソッド
     // Promise	JavaScript の非同期処理を扱うための仕組み（fetch の中で使われている）
+    //     JSON.stringify() は JavaScript → JSON文字列
+    // response.json() は JSON文字列 → JavaScript
+    // '{"success":true,"message":"登録完了"}'→{ success: true, message: "登録完了" }
+    // 方法②：response.text() → JSON.parse()
+    //   fetch("/api")
+    // .then((response) => response.text()) // まず文字列として取り出す
+    // .then((text) => {
+    //   const data = JSON.parse(text);     // 手動で解析
+    //   console.log("JSONオブジェクト:", data);
+    // });
+
     .then((response) => response.json())
     .then((result) => {
       console.log("サーバーからの返事:", result);
@@ -68,3 +79,6 @@ form.addEventListener("submit", function (event) {
       alert("送信に失敗しました。");
     });
 });
+
+// 質問したいことメモ
+// .then((response) => response.json())     .then((result) => {       console.log("サーバーからの返事:", result);       alert("登録が完了しました！");       form.reset();     })     .catch((error) => {       console.error("送信でエラーが出たよ:", error);       alert("送信に失敗しました。");     }); });  この=>はどういう役割と意味か　なんで　responce jsonの後に空かっこがあるのか　しかもresultの後は　ふつうのかっこじゃなくて　限かっこがある　しかもthenとcatchが分けられているし　これも同じように　カッコで全体をかこって　コンソールエラーはおまけだと思うし　とにかく処理を中に書いている　responnceとその他の　メソッド？の違いとしては　中に動作が入っているかか？jsonに限定するというのがresponceの役割か　　後は限かっこのアロー関数？　がふょくわからんあん
