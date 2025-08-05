@@ -67,18 +67,59 @@ form.addEventListener("submit", function (event) {
     //   const data = JSON.parse(text);     // 手動で解析
     //   console.log("JSONオブジェクト:", data);
     // });
-
+    // JavaScriptでの「オブジェクト」は：
+    // 👉 「名前」と「値」のペア（key-value）をまとめたものです。
+    // 例：
+    // const user = {
+    //   name: "Taro",
+    //   age: 22
+    // };
+    // responceはオブジェクト。fetchの結果を受け取るためのもの。サーバーからの応答を表します。
+    // responve.json()は、メソッソド。サーバーからの応答をJSON形式で受け取る。
+    // .then((response) => response.json()) は、サーバーからの応答をJSON形式で受け取るための処理です。
+    // つまり、サーバーが返したデータをJavaScriptのオブジェクトに変換しています。
     .then((response) => response.json())
+    // result と response が指定するものは変わらないけど、response.json() で加工したものが result に来る
     .then((result) => {
       console.log("サーバーからの返事:", result);
       alert("登録が完了しました！");
+      //  送信が成功したあと：フォームの中身（入力値）を消して
+      // 「送信終わったよ！もう一度書いてね」っていう状態に戻したいから
       form.reset();
     })
+    //     ✅ 2. 「resultの中でもさらに加工したら？」 → さらに .then() でつなげられる！
+    // あなたが聞いているのはこういうことですね：
+
+    // 「result の中でさらに加工したら、次はどうやって受け取るの？」
+
+    // ✔ 回答：また .then() をつなげればOK！
+    // js
+    // コピーする
+    // 編集する
+    // fetch("/api")
+    //   .then((response) => response.json())     // JSON → JSオブジェクトに
+    //   .then((result) => {
+    //     const userName = result.name;          // 加工：nameだけ取り出す
+    //     return userName;                       // 加工した値を次へ渡す
+    //   })
+    //   .then((name) => {
+    //     console.log("ユーザー名は:", name);     // nameを受け取る
+    //   });
     .catch((error) => {
       console.error("送信でエラーが出たよ:", error);
       alert("送信に失敗しました。");
     });
 });
+
+// ✅ もし async/await で書いたらもっとスッキリ！！
+// js
+// コピーする
+// 編集する
+// const response = await fetch("/api");
+// const result = await response.json();
+// const name = result.name;
+// console.log(name);
+// then を連ねる代わりに、順番に書ける形になります。
 
 // 質問したいことメモ
 // .then((response) => response.json())     .then((result) => {       console.log("サーバーからの返事:", result);       alert("登録が完了しました！");       form.reset();     })     .catch((error) => {       console.error("送信でエラーが出たよ:", error);       alert("送信に失敗しました。");     }); });  この=>はどういう役割と意味か　なんで　responce jsonの後に空かっこがあるのか　しかもresultの後は　ふつうのかっこじゃなくて　限かっこがある　しかもthenとcatchが分けられているし　これも同じように　カッコで全体をかこって　コンソールエラーはおまけだと思うし　とにかく処理を中に書いている　responnceとその他の　メソッド？の違いとしては　中に動作が入っているかか？jsonに限定するというのがresponceの役割か　　後は限かっこのアロー関数？　がふょくわからんあん
