@@ -3,6 +3,7 @@
 const form = document.getElementById("client-form");
 
 // ✅ フォームが送信されたときの処理を設定
+// testこめんと
 form.addEventListener("submit", async function (event) {
   event.preventDefault(); // デフォルトの動作（ページリロード）を止める
 
