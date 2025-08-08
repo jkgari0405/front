@@ -38,3 +38,12 @@ form.addEventListener("submit", async function (event) {
     alert("送信に失敗しました。");
   }
 });
+
+// # 変更を保存（ステージング）
+// git add .
+
+// # コミットで変更を記録
+// git commit -m "最新の変更内容"
+
+// # リモートに送る
+// git push origin main
