@@ -1,4 +1,5 @@
 // ✅ ユーザーが入力するフォーム（id="client-form"）を取得
+// testできない
 const form = document.getElementById("client-form");
 
 // ✅ フォームが送信されたときの処理を設定
@@ -36,3 +37,4 @@ form.addEventListener("submit", async function (event) {
     alert("送信に失敗しました。");
   }
 });
+
