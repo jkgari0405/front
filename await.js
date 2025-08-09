@@ -1,5 +1,5 @@
 // ✅ ユーザーが入力するフォーム（id="client-form"）を取得
-// test
+// 1224
 const form = document.getElementById("client-form");
 
 // ✅ フォームが送信されたときの処理を設定
@@ -47,3 +47,7 @@ form.addEventListener("submit", async function (event) {
 
 // # リモートに送る
 // git push origin main
+
+// Ctrl + Shift + P（Mac: Cmd + Shift + P）でコマンドパレット
+// 「Git: Clone」と入力
+// リポジトリのURLまたは「Clone from GitHub」を選択
