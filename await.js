@@ -1,5 +1,6 @@
 // ✅ ユーザーが入力するフォーム（id="client-form"）を取得
 // 1224
+// formというのは　htmlに記述されているclient-formというidを持つフォームのことだと丁寧に記している。
 const form = document.getElementById("client-form");
 
 // ✅ フォームが送信されたときの処理を設定
