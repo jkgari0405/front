@@ -4,7 +4,11 @@
 const form = document.getElementById("client-form");
 
 // ✅ フォームが送信されたときの処理を設定
-// testこめんと
+// submitが起きたときに起こる処理がつらつらと書かれている。
+// ここまででthenとの違いは　functionの前にasyncがついていること。
+// asyncは非同期処理を行うことを示すキーワードで、
+// awaitはその非同期処理の結果を待つために使います。
+// つまり、awaitはasync関数の中でしか使えません。
 form.addEventListener("submit", async function (event) {
   event.preventDefault(); // デフォルトの動作（ページリロード）を止める
 
@@ -14,8 +18,18 @@ form.addEventListener("submit", async function (event) {
   // ✅ サーバーに送るデータをオブジェクトでまとめる
   const data = { clientName: clientName };
 
+  // tryというのは、エラーが起きる可能性のある処理を囲むためのものです。
+  // もしエラーが起きたら、catchの中に飛ぶ。
+  // catchは、tryの中でエラーが発生したときに実行される処理を定義します。
+  // try-catch構文は、JavaScriptでエラー処理を行うための一般的な方法です。
   try {
     // ✅ fetch でサーバーにデータを送信（非同期通信）
+    // thenの時はURLを指定するだけだが、awaitではconst responseとしてawaitを使ってfetchの結果を待つ。
+    // awaitは、非同期処理の結果を待つためのキーワードです。
+    // これにより、fetchが完了するまで次の行のコードが実行されません。
+    //     .then() → 結果は関数の引数でもらう
+    // await → 結果は変数に入れて使うことが多い
+    // const response は必須じゃないけど、後で使うなら必要
     const response = await fetch("http://localhost:7777/api/clients", {
       method: "POST", // POST：新しいデータを送るときに使う
       headers: {
@@ -33,6 +47,7 @@ form.addEventListener("submit", async function (event) {
 
     // ✅ フォームの入力内容をリセット（空にする）
     form.reset();
+    // catchは、tryの中でエラーが発生したときに実行される処理を定義します。
   } catch (error) {
     // ✅ 通信エラーやサーバーエラーが発生した場合
     console.error("送信でエラーが出たよ:", error);
