@@ -16,7 +16,8 @@ form.addEventListener("submit", async function (event) {
   const clientName = document.getElementById("clientName").value;
 
   // ✅ サーバーに送るデータをオブジェクトでまとめる
-  const data = { clientName: clientName };
+  // キーとバリューが同じ場合は省略可能。
+  const data = { clientName };
 
   // tryというのは、エラーが起きる可能性のある処理を囲むためのものです。
   // もしエラーが起きたら、catchの中に飛ぶ。
