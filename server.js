@@ -22,3 +22,24 @@ app.listen(port, () => {
 // ② スクリプト登録	短いコマンドで実行できるようにする	npm start など
 // ③ プロジェクト情報	名前・バージョン・説明などを記録	アプリ名など
 // ④ 他の人が再現できる	npm install ですぐ同じ環境にできる	チーム開発に便利
+
+// const express = require("express");
+// const app = express();
+// const port = 7777;
+
+// app.get("/api/clients", (req, res) => {
+//   const clients = [
+//     { id: 1, name: "田中" },
+//     { id: 2, name: "佐藤" },
+//   ];
+//   res.json(clients);
+// });
+
+// app.listen(port, () => {
+//   console.log(`サーバーが http://localhost:${port} で起動中です！`);
+// });
+
+// ✅ 解決方法：ルートを追加する
+// 以下のように  のルートを Express に追加してください：
+
+// これで  にアクセスすると、JSON データが返ってくるようになります。
