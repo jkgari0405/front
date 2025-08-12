@@ -20,6 +20,7 @@
   "homepage": "https://github.com/jkgari0405/front#readme",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0"
   }
 }

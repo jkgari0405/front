@@ -1,11 +1,54 @@
 const express = require("express");
 const app = express();
 const port = 7777;
+// npm install cors
+// APIサーバー（Expressなど）でブラウザからの別オリジンリクエストを許可するための設定をする場合に必要 です。
 
+// つまり、
+// あなたのAPIサーバーに対して、
+// フロントが別のポートや別ドメイン（例: localhost:3000 から localhost:7777 へ）からfetchでアクセスするなら
+// CORS対応が必須で、そのために cors パッケージを入れて使います。
+
+// APIサーバーとフロントが同じオリジン（同じポート・ドメイン）で動くならcorsは不要のケースもあります。
+
+const cors = require("cors");
+app.use(cors());
+
+// JSONデータを受け取れるようにする
+app.use(express.json());
+
+// ✅ ここにGETルートを書く（ブラウザで http://localhost:7777/ を開いたとき用）
+app.get("/", (req, res) => {
+  res.send("APIサーバーが稼働中です！");
+});
+
+// ✅ POSTルート（フロントのfetchが使う部分）
+app.post("/api/clients", (req, res) => {
+  const clientName = req.body.clientName;
+  console.log("受け取った取引先名:", clientName);
+
+  res.json({ message: "取引先登録が完了しました", clientName });
+});
+
+// サーバー起動
 app.listen(port, () => {
   console.log(`サーバーが http://localhost:${port} で起動中です！`);
 });
 
+// 「APIだけ」というのは、サーバーがHTMLや画面は返さず、データだけを返す形のことです。
+// そして、その場合フロントは別の場所（別サーバーや別フォルダ）で動きます。
+
+// APIだけの構成のイメージ
+// bash
+// コピーする
+// 編集する
+// [バックエンドサーバー]
+// http://localhost:7777/api/clients  → JSONだけ返す
+// 例: { "message": "登録完了", "clientName": "株式会社テスト" }
+
+// [フロントサーバー]
+// http://localhost:3000/  → HTML・CSS・JavaScript返す
+// 例: ReactやVue、あるいは普通のHTMLファイル
 // まずは　データベースとの接続　そのあとには　データベースの更新削除　行の挿入
 // 次は JOIN・WHERE・GROUP BY などを使った「必要なデータの抽出」 が自然なステップです。
 // CSVやExcelのインポート/エクスポート
