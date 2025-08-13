@@ -68,3 +68,26 @@ form.addEventListener("submit", async function (event) {
 // Ctrl + Shift + P（Mac: Cmd + Shift + P）でコマンドパレット
 // 「Git: Clone」と入力
 // リポジトリのURLまたは「Clone from GitHub」を選択
+
+// getData('http://localhost:7777/api/clients')
+// SharedWorker();
+// データが取り込まれるまで何も表示されないという問題が。なので、データの取得をバックグラウンドで行えるようにした。
+// setTimeout(() => console.log(1), 1000);
+// console.log(2);
+// 1秒後に1を表示する。なので、まずは2が表示される。1秒より早いから。
+// とにかく書いて体が覚える。とにかくやる。
+// ネストが深くなるからPromiseを解決。
+
+// 状態を持つ。待っている状態からresolved状態に変わる。
+// 最初は待って手の状態
+// 　だが何も引数に入っていないし　処理も中に入っていない状態のコードでいいのか　
+// AIなどに聞いてみる必要がある。
+new Promise(()={});
+// ここのかっこで囲うのは何なんだろうか。よくjavascriptであるイメージだ。
+new Promise(resolve => resolve());
+new Promise(resolve => resolve('成功しました！'));
+.then(res => console.log(res));
+
+// つぎは　動画のネスト解消版のものを書いてみる。
+// 模写することで頭で考えるよりも楽かもしれない。
+// やってる感があるし。
