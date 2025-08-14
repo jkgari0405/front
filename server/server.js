@@ -1,19 +1,5 @@
-// 復習必要　0813
+// 復習必要　0814～c
 
-const express = require("express");
-const cors = require("cors");
-const app = express();
-const port = 7777;
-
-// なんでさっきはhttp:127のほうでcors許可してたのにできなかったのかはわからない。//localhost:7777/api/clients で動いていたのに、今はhttp://
-// app.use(cors());
-// app.use(
-//   cors({
-//     origin: ["http://127.0.0.1:5500", "http://localhost:5500"],
-//   })
-// );
-// app.use(
-//   cors({
 //     origin: [ "http://localhost:5500"],
 //   })
 // );
@@ -27,6 +13,7 @@ app.get("/", (req, res) => {
   res.send("APIサーバーが稼働中です");
 });
 
+// api/clientsをこれでhttpの後ろにあると定義づけしてい？？
 app.use(express.json());
 app.post("/api/clients", (req, res) => {
   const clientName = req.body.clientName;

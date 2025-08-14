@@ -1,7 +1,12 @@
+// 再現性を高めるなら、コピペよりも実際に書くこと。読めるようになるのも書いたほうがいいし。なによりかけるようになりたいなら。
 // ✅ ユーザーが入力するフォーム（id="client-form"）を取得
 // 1224
 // formというのは　htmlに記述されているclient-formというidを持つフォームのことだと丁寧に記している。
 const form = document.getElementById("client-form");
+
+// const form = document.getElementById("client-form");
+// とにかくコードを書いてみて復習する。それに意味があるとか即効性があるとか関係なく。
+// 自分のものにすること。
 // とにかくゴールとタスクを決めること。ゴールが難しすぎるならそれを達成するための目標。
 // そしてやっとタスクまで分解できる。
 // ✅ フォームが送信されたときの処理を設定
@@ -10,7 +15,7 @@ const form = document.getElementById("client-form");
 // asyncは非同期処理を行うことを示すキーワードで、
 // awaitはその非同期処理の結果を待つために使います。
 // つまり、awaitはasync関数の中でしか使えません。
-form.addEventListener("submit", async function (event) {
+form.addEventListener("submit", async (event) => {
   event.preventDefault(); // デフォルトの動作（ページリロード）を止める
 
   // ✅ フォームの中の「取引先名」の入力値を取得
@@ -20,10 +25,37 @@ form.addEventListener("submit", async function (event) {
   // キーとバリューが同じ場合は省略可能。
   const data = { clientName };
 
+  //   1. async は関数につけるキーワード
+  // その関数の中で await を使えるようにするためのもの
+
+  // 関数全体に作用し、関数内のすべての処理（同期・非同期）が含まれる
+
+  // 2. await は「Promiseの処理が終わるのを待つ」ための演算子
+  // await の 直前にあるPromiseを待つ
+
+  // await より前に書いた変数宣言や普通の処理は、ただの通常の（同期的な）処理なので
+
+  // async があっても、await の前の処理には影響しません
+
+  // まとめると
+  // js
+  // コードをコピーする
+  // async function example() {
+  //   const a = 1;        // ここは同期処理。asyncでも普通に動く
+  //   const b = 2;        // 同期処理
+  //   await someAsync();  // ここで非同期処理の完了を待つ
+  //   console.log(a + b);
+  // }
+  // async は関数の枠組みとして「await使うよ！」と宣言
+
+  // await は「ここで非同期処理を待つよ！」の合図
+
+  // await より前の変数宣言や処理は普通の同期処理として動きます
+
   // tryというのは、エラーが起きる可能性のある処理を囲むためのものです。
   // もしエラーが起きたら、catchの中に飛ぶ。
   // catchは、tryの中でエラーが発生したときに実行される処理を定義します。
-  // try-catch構文は、JavaScriptでエラー処理を行うための一般的な方法です。
+  // try-catch構文は、JavaScriptでエラーになる可能性のあるものを囲むための一般的な方法です。
   try {
     // ✅ fetch でサーバーにデータを送信（非同期通信）
     // thenの時はURLを指定するだけだが、awaitではconst responseとしてawaitを使ってfetchの結果を待つ。
@@ -32,6 +64,7 @@ form.addEventListener("submit", async function (event) {
     //     .then() → 結果は関数の引数でもらう
     // await → 結果は変数に入れて使うことが多い
     // const response は必須じゃないけど、後で使うなら必要
+    // responceは特別名前ではない。変数名は自由につけてもいい。
     const response = await fetch("http://localhost:7777/api/clients", {
       method: "POST", // POST：新しいデータを送るときに使う
       headers: {
@@ -39,6 +72,16 @@ form.addEventListener("submit", async function (event) {
       },
       body: JSON.stringify(data), // オブジェクトをJSON文字列に変換して送信
     });
+
+    //     そうですね、fetchで送信時と受信時の両方でJSONを扱う必要があるので、コードにどうしても
+
+    // headersで「送るデータはJSONですよ」と伝え、
+
+    // bodyでオブジェクトを文字列化（JSON.stringify）、
+
+    // 受信時は response.json() でJSONからオブジェクトに戻す
+
+    // という二重のJSON処理が入ります。
 
     // ✅ サーバーからの応答（JSON形式）をJavaScriptオブジェクトに変換
     const result = await response.json();
@@ -95,12 +138,12 @@ form.addEventListener("submit", async function (event) {
 
 // なんでnewを先頭につけているかはよくわからない。
 
-new Promise((resolve) => {
-  setTimeout(() => {
-    console.log(3);
-    resolve();
-  }, 1000);
-});
+// new Promise((resolve) => {
+//   setTimeout(() => {
+//     console.log(3);
+//     resolve();
+//   }, 1000);
+// });
 
 //   new Promise((resolve, reject) => {
 //   // 失敗を扱わないならrejectは無視してOK
