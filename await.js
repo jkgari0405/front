@@ -1,12 +1,23 @@
 // 再現性を高めるなら、コピペよりも実際に書くこと。読めるようになるのも書いたほうがいいし。なによりかけるようになりたいなら。
+
 // ✅ ユーザーが入力するフォーム（id="client-form"）を取得
 // 1224
 // formというのは　htmlに記述されているclient-formというidを持つフォームのことだと丁寧に記している。
 const form = document.getElementById("client-form");
+// ;について
+// const form = ... のあとに 改行があるので、JavaScript は自動で文の終わりと判断します
+
+// そのため ; を省略しても動作に問題はない
+
+// 2. 実務的な理由でつける場合
+// 読みやすさ：文の区切りが明確になる
+
+// バグ予防：別の文を後から追加したときに自動セミコロン挿入のルールで思わぬ挙動にならない
 
 // const form = document.getElementById("client-form");
 // とにかくコードを書いてみて復習する。それに意味があるとか即効性があるとか関係なく。
 // 自分のものにすること。
+// とにかく問題は、自分のものにできているか。知識が血肉になっているかどうかだ。
 // とにかくゴールとタスクを決めること。ゴールが難しすぎるならそれを達成するための目標。
 // そしてやっとタスクまで分解できる。
 // ✅ フォームが送信されたときの処理を設定
@@ -16,14 +27,45 @@ const form = document.getElementById("client-form");
 // awaitはその非同期処理の結果を待つために使います。
 // つまり、awaitはasync関数の中でしか使えません。
 form.addEventListener("submit", async (event) => {
-  event.preventDefault(); // デフォルトの動作（ページリロード）を止める
+  event.preventDefault();
+  //   「デフォルト」とは ブラウザが標準で行う動作 のことです。
+  // フォームの場合のデフォルトは 送信するとページがリロードされること です。
+  // asyncはあくまで後のawaitのメソッドのためにあるの？
+  //   2. 「関数の後に処理される」わけではない
+  // JavaScriptで関数を呼び出す時は
+  // myFunc(引数);
+  // の形で、先に引数の値を決めてから関数の中身が実行されます。
+  //preventDefault() は「イベントオブジェクト (event) に生えているメソッド」です。
+  // つまり event を引数として受け取らないと、そのオブジェクトにアクセスできないため preventDefault() も呼べません。
+  // 引数を省いた場合、関数内で event という変数は存在しないのでエラーになります（preventDefault 自体に到達できない）。
+  //   イベントオブジェクト作成（event）    │
+  //  │   例: {                                   │
+  //  │        type: "submit",                    │
+  //  │        target: <form#myForm>,              │
+  //  │        timeStamp: 123456789,
 
+  // この event は、フォームが送信された事実そのものを表す「イベントオブジェクト」です。
+
+  // デフォルトの動作（ページリロード）を止める
+  // 模写というのはその分血肉にするという観点で大事だ。意味をなんとなくでも、調べて理解してやる。とにかく後でもいいから理解する。それも大事。
+  // 理解だけでは血肉にならないし、ただ手を動かしているだけでもダメ。特に今は手を動かさずにシステムやAIが発展し菅いるからそういう現象がある。
   // ✅ フォームの中の「取引先名」の入力値を取得
   const clientName = document.getElementById("clientName").value;
+  //   3. もし form から直接取るなら
 
+  // form 変数がフォーム要素を指しているなら、その中の要素をこうやって取れます：
+
+  // const clientName = form.clientName.value;
+  // // または
+  // const clientName = form.elements["clientName"].value;
+  // const clientName = document.getElementById("clienName").value;
   // ✅ サーバーに送るデータをオブジェクトでまとめる
   // キーとバリューが同じ場合は省略可能。
   const data = { clientName };
+  //   const data = { clientName };
+  // は、さっき取得した変数 clientName の値を持つオブジェクトを作っているだけです。
+  // data という名前は完全にあなたが自由につけられる変数名です。
+  // 実際メモを丁寧にまとめる意味は痛い目に合わないとわからない。
 
   //   1. async は関数につけるキーワード
   // その関数の中で await を使えるようにするためのもの
@@ -57,6 +99,11 @@ form.addEventListener("submit", async (event) => {
   // catchは、tryの中でエラーが発生したときに実行される処理を定義します。
   // try-catch構文は、JavaScriptでエラーになる可能性のあるものを囲むための一般的な方法です。
   try {
+//     try は オブジェクトでも async の機能でもありません。
+// 整理するとこうです。
+// 1. try とは
+// JavaScript の文法キーワードです
+// 「このブロック内でエラーが起きたら catch に飛ばす」という 例外処理用の構文
     // ✅ fetch でサーバーにデータを送信（非同期通信）
     // thenの時はURLを指定するだけだが、awaitではconst responseとしてawaitを使ってfetchの結果を待つ。
     // awaitは、非同期処理の結果を待つためのキーワードです。
@@ -66,7 +113,10 @@ form.addEventListener("submit", async (event) => {
     // const response は必須じゃないけど、後で使うなら必要
     // responceは特別名前ではない。変数名は自由につけてもいい。
     const response = await fetch("http://localhost:7777/api/clients", {
+      // サーバーでもapi clientsのpostを受け取ると指定するよ。
       method: "POST", // POST：新しいデータを送るときに使う
+//       fetch() で method を指定しなければ GET
+// method: "POST" と指定したら、そのリクエストは POST になるだけ で、同時に GET にはなりません
       headers: {
         "Content-Type": "application/json", // JSON形式で送るという合図
       },
@@ -83,9 +133,36 @@ form.addEventListener("submit", async (event) => {
 
     // という二重のJSON処理が入ります。
 
+    // 上のawait(fetchのリクエストに対するレスポンス)が終わるまで　const responcwの行まで行かない
     // ✅ サーバーからの応答（JSON形式）をJavaScriptオブジェクトに変換
     const result = await response.json();
 
+//     サーバー側：res.json() → フロントに JSON を返す
+// フロント側：response.json() → 返ってきた JSON を JS オブジェクトに変換
+
+// 2. await response.json() の順序イメージ
+// const result = await response.json();
+
+
+// response.json() が呼ばれる
+
+// ボディの解析が開始される
+
+// 結果はまだ返っていない → Promise(Pending)
+
+// await が処理を一時停止
+
+// JSON 解析が終わるまで次の行を待つ
+
+// 解析が完了 → Promise Fulfilled
+
+// 解析された JavaScript オブジェクトが返る
+
+// await が解除される → result に代入
+
+// この時点で result が使える
+
+// 次の行の処理が実行される
     // ✅ サーバーからのメッセージを表示
     console.log("サーバーからの返事:", result);
     alert("登録が完了しました！");
@@ -93,12 +170,13 @@ form.addEventListener("submit", async (event) => {
     // ✅ フォームの入力内容をリセット（空にする）
     form.reset();
     // catchは、tryの中でエラーが発生したときに実行される処理を定義します。
-  } catch (error) {
+  } 
+
+catch (error) {
     // ✅ 通信エラーやサーバーエラーが発生した場合
     console.error("送信でエラーが出たよ:", error);
     alert("送信に失敗しました。");
   }
-});
 
 // # 変更を保存（ステージング）
 // git add .
