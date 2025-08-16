@@ -25,6 +25,26 @@ app.use(
   })
 );
 
+// 1. 127.0.0.1 の意味
+// これは 自分自身（ローカルPC）を指す特別なIPアドレス です。
+// 別名 ループバックアドレス と呼ばれます。
+// 127.0.0.1 = 自分のPCをIPアドレスで指定
+// localhost = 同じく自分のPCを指すドメイン名（実際には裏で 127.0.0.1 に解決される）
+
+// ] の後に , がある理由
+// ここは JavaScript の配列リテラルの書き方です。
+// origin: ["http://127.0.0.1:5500"],
+// 今回は "http://127.0.0.1:5500" という 1要素だけの配列
+// , は「要素の区切り」に使う記号
+
+// じゃあ「最後の要素の後ろに , があっていいの？」
+// → 実は OK です（ECMAScript 5以降で許可されてる）。
+// これを トレーリングカンマ（末尾カンマ） と言います。
+// 理由：
+// 要素を後から追加・削除しても Git で差分が見やすい
+// 配列やオブジェクトをきれいに整列しやすい
+// なので多くのプロジェクトでは「最後の要素の後もカンマを付ける」書き方が推奨されています
+
 // 1. 関数 (Function)　今回の場合はcors
 // 独立して定義された処理のまとまり
 // 呼び出すときは 名前だけで呼ぶ
@@ -87,12 +107,46 @@ app.use(express.json());
 // 送信された JSON を JavaScript のオブジェクトに変換
 // 変換後は req.body に格納される
 
+// 1. express.urlencoded() とは？　(後で学習　参照用)
+// フォーム送信データ（application/x-www-form-urlencoded）を解析するミドルウェア
+// name=value&age=20 みたいな クエリストリング形式 を req.body に入れてくれる
+// 例:
+// app.use(express.urlencoded({ extended: true }));
+// // フォームから送られたデータを req.body に
+// app.post("/form", (req, res) => {
+//   console.log(req.body);
+//   // { name: "soga", age: "20" }
+//   res.send("OK");
+// });
+// extended: true の意味
+// true → ネストされたオブジェクトを使える (qs ライブラリ使用)
+// false → シンプルなパースだけ (querystring ライブラリ使用)
+
+// 2. express.json() は「全部のJSON」を処理する？
+// リクエストの Content-Type が application/json のものだけを処理します
+// （全リクエストに無条件で JSON パースするわけじゃない）
+// つまり：
+// fetch("/api", {
+//   method: "POST",
+//   headers: { "Content-Type": "application/json" },
+//   body: JSON.stringify({ client: "soga" }),
+// });
+// ⬆️ こういうリクエストだけ req.body に { client: "soga" } が入る。
+// Content-Type: text/plain や multipart/form-data（ファイルアップロード）には反応しないです。
+
+// 3. const application = express(); でもいい？
+// ✅ 問題ありません。
+// const app = express(); は単なる慣習（短くて覚えやすいから）。
+// 変数名は自由なので例えば：
+// ただし Express のドキュメントやチュートリアルはみんな app を使っているので、可読性・慣習の面で app がベターって感じです。
+
 // useが何のメソッドがよくわかってないし その中にまたメソッドが入ってる？
 app.post("/api/clients", (req, res) => {
   const clientName = req.body.clientName;
   // ややこしく見える。〇〇の〇〇...ならいいか
-  console.log("受け取った取引先名:", clientName);
   res.json({ message: "取引先登録が完了しました", clientName });
+  // json形式でclientNameを返す。
+  console.log("受け取った取引先名:", clientName);
 });
 
 // 「APIだけ」というのは、サーバーがHTMLや画面は返さず、データだけを返す形のことです。
